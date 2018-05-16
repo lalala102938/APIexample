@@ -29,7 +29,10 @@ app.use('/', indexRouter);
 app.use('/users', usersRouter);
 
 app.get("/api/users", function(req, res){
+    res.setHeader('Access-Control-Allow-Origin', '*');
 
+    // Request methods you wish to allow
+    res.setHeader('Access-Control-Allow-Methods', 'GET, POST, OPTIONS, PUT, PATCH, DELETE');
     var content = fs.readFileSync("users.json", "utf8");
     var users = JSON.parse(content);
     res.send(users);
@@ -79,7 +82,12 @@ app.post("/api/users", jsonParser, function (req, res) {
     var data = JSON.stringify(users);
     // перезаписываем файл с новыми данными
     fs.writeFileSync("users.json", data);
+    res.setHeader('Access-Control-Allow-Origin', '*');
+
+    // Request methods you wish to allow
+    res.setHeader('Access-Control-Allow-Methods', 'GET, POST, OPTIONS, PUT, PATCH, DELETE');
     res.send(user);
+
 });
 // удаление пользователя по id
 app.delete("/api/users/:id", function(req, res){
@@ -100,6 +108,10 @@ app.delete("/api/users/:id", function(req, res){
         var user = users.splice(index, 1)[0];
         var data = JSON.stringify(users);
         fs.writeFileSync("users.json", data);
+        res.setHeader('Access-Control-Allow-Origin', '*');
+
+        // Request methods you wish to allow
+        res.setHeader('Access-Control-Allow-Methods', 'GET, POST, OPTIONS, PUT, PATCH, DELETE');
         // отправляем удаленного пользователя
         res.send(user);
     }
@@ -131,9 +143,17 @@ app.put("/api/users", jsonParser, function(req, res){
         user.name = userName;
         var data = JSON.stringify(users);
         fs.writeFileSync("users.json", data);
+        res.setHeader('Access-Control-Allow-Origin', '*');
+
+        // Request methods you wish to allow
+        res.setHeader('Access-Control-Allow-Methods', 'GET, POST, OPTIONS, PUT, PATCH, DELETE');
         res.send(user);
     }
     else{
+        res.setHeader('Access-Control-Allow-Origin', '*');
+
+        // Request methods you wish to allow
+        res.setHeader('Access-Control-Allow-Methods', 'GET, POST, OPTIONS, PUT, PATCH, DELETE');
         res.status(404).send(user);
     }
 });
